@@ -1,0 +1,63 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', 'node-movie' ]
+2 info using npm@3.8.6
+3 info using node@v5.11.1
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData node-movie
+8 silly fetchNamedPackageData node-movie
+9 silly mapToRegistry name node-movie
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry http://registry.npmjs.org/
+12 silly mapToRegistry data Result {
+12 silly mapToRegistry   raw: 'node-movie',
+12 silly mapToRegistry   scope: null,
+12 silly mapToRegistry   name: 'node-movie',
+12 silly mapToRegistry   rawSpec: '',
+12 silly mapToRegistry   spec: 'latest',
+12 silly mapToRegistry   type: 'tag' }
+13 silly mapToRegistry uri http://registry.npmjs.org/node-movie
+14 verbose request uri http://registry.npmjs.org/node-movie
+15 verbose request no auth needed
+16 info attempt registry request try #1 at 1:07:21 PM
+17 verbose request id df28b2a01c4bb931
+18 http request GET http://registry.npmjs.org/node-movie
+19 info retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN registry.npmjs.org:80
+20 info attempt registry request try #2 at 1:07:51 PM
+21 http request GET http://registry.npmjs.org/node-movie
+22 info retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN registry.npmjs.org:80
+23 info attempt registry request try #3 at 1:09:12 PM
+24 http request GET http://registry.npmjs.org/node-movie
+25 silly fetchPackageMetaData Error: getaddrinfo EAI_AGAIN registry.npmjs.org:80
+25 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:893:11)
+25 silly fetchPackageMetaData     at errnoException (dns.js:31:15)
+25 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+25 silly fetchPackageMetaData  error for node-movie { [Error: getaddrinfo EAI_AGAIN registry.npmjs.org:80]
+25 silly fetchPackageMetaData   code: 'EAI_AGAIN',
+25 silly fetchPackageMetaData   errno: 'EAI_AGAIN',
+25 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+25 silly fetchPackageMetaData   hostname: 'registry.npmjs.org',
+25 silly fetchPackageMetaData   host: 'registry.npmjs.org',
+25 silly fetchPackageMetaData   port: 80 }
+26 silly rollbackFailedOptional Starting
+27 silly rollbackFailedOptional Finishing
+28 silly runTopLevelLifecycles Starting
+29 silly runTopLevelLifecycles Finishing
+30 silly install printInstalled
+31 verbose stack Error: getaddrinfo EAI_AGAIN registry.npmjs.org:80
+31 verbose stack     at Object.exports._errnoException (util.js:893:11)
+31 verbose stack     at errnoException (dns.js:31:15)
+31 verbose stack     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+32 verbose cwd /vagrant/expressAssignment/ExpressWorkSpace
+33 error Linux 4.2.0-22-generic
+34 error argv "/usr/bin/nodejs" "/usr/bin/npm" "install" "node-movie"
+35 error node v5.11.1
+36 error npm  v3.8.6
+37 error code EAI_AGAIN
+38 error errno EAI_AGAIN
+39 error syscall getaddrinfo
+40 error getaddrinfo EAI_AGAIN registry.npmjs.org:80
+41 error If you need help, you may report this error at:
+41 error     <https://github.com/npm/npm/issues>
+42 verbose exit [ 1, true ]

@@ -1,0 +1,212 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Movies to watch
+    link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
+    script(src='js/jquery-2.2.3.js')
+    script(src='js/jput.min.js')
+    script(type='application/javascript').
+      var movies_db = [] ; 
+      jQuery.ajax({
+      url:"/getJson",
+      type:"GET",
+      success:function (data) {
+      movies_db=data;
+      movies_db=JSON.parse(movies_db);
+      console.log("Post resposne:");
+      }
+      });
+    style(type='text/css').
+      #moviesId{
+      clear: both;
+      }
+      .col-md-4, .col-md-2{
+      padding-top: 5%;
+      }
+      .col-md-6{
+      padding-top: 7%;
+      padding-bottom: 5%;
+      }
+      #modal-95310{
+      width: 300px;
+      }
+  body
+    script(type='application/javascript').
+      $(document).ready(function() {
+      setTimeout(2000);
+      $('#source').jPut({
+      jsonData: movies_db,
+      name: 'template'
+      });
+      });
+      function fillData(title){
+      var selectedMovie ;
+      for (var i = movies_db.length - 1; i >= 0; i--) {
+      if(movies_db[i].title == title){
+      selectedMovie = movies_db[i];
+      }
+      }
+      $("#updtMovieName").val(selectedMovie.title);
+      $("#updtYear").val(selectedMovie.year);
+      $("#updtWriters").val(selectedMovie.writers);
+      $("#updtActors").val(selectedMovie.actors);
+      $("#updtPlot").val(selectedMovie.plot);
+      }
+    #source.container-fluid
+      .row
+        .col-md-12
+          .jumbotron
+            h2
+              | List of movies I wish to watch!!!.
+        .row(jput='template')
+          #rowId
+            #moviesId.col-md-4
+              img#MovieImage(alt='Movie Image Preview', src='{{poster}}')
+            .col-md-4
+              h2#movieTitle
+                | Title:{{title}}
+              h5#year
+                | Year:{{year}}
+              h5#actors
+                | Actor:{{actors}}
+              h5#director
+                | Director:{{writers}}
+              p#plot
+                | Plot:{{plot}}
+            .col-md-2
+              .col-md-12
+                a#modal-475110.btn.btn-lg.btn-danger.btn-block(role='button', name='{{title}}', onclick='deleteMovie(this.name);') Delete Movie from list
+                #modal-container-475110.modal.fade(role='dialog', aria-labelledby='myModalLabel1', aria-hidden='true')
+                  .modal-dialog
+                    .modal-content
+                      .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-hidden='true')
+                          | ×
+                        h4#myModalLabel1.modal-title
+                          | Delete a Movie
+                      .modal-body
+                        | Are you sure, Do you want to delete this movie?
+                        form(action='/delete', method='GET')
+                          input(type='hidden', name='movieName', value='')
+                      .modal-footer
+                        button.btn.btn-default(type='button', data-dismiss='modal')
+                          | Close
+                        button.btn.btn-primary(type='button')
+                          | Delete
+                a#modal-270694.btn.btn-lg.btn-success.btn-block(href='#modal-container-270694', name='{{title}}', role='button', onclick='fillData(this.name);', data-toggle='modal') Update the details
+    #modal-container-270694.modal.fade(role='dialog', aria-labelledby='myModalLabel2', aria-hidden='true')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+              | ×
+            h4#myModalLabel2.modal-title
+              | Update movie details
+          #updateModal.modal-body
+            form(action='/update', method='GET')
+              table
+                tr
+                  td Movie Name
+                  td
+                    input#updtMovieName(name='updtMovieName', readonly='readonly')
+                tr
+                  td Year
+                  td
+                    input#updtYear(name='updtYear', required='required')
+                tr
+                  td Director
+                  td
+                    input#updtWriters(name='updtWriters', required='required')
+                tr
+                  td Actors
+                  td
+                    input#updtActors(name='updtActors', required='required')
+                tr
+                  td Description
+                  td
+                    input#updtPlot(name='updtPlot', required='required')
+              script(type='text/javascript').
+              br
+              br
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal')
+              | Close
+            button.btn.btn-primary(type='button', onclick='updateMovie();')
+              | Save changes
+    .col-md-6
+      a#modal-95318.btn.btn-lg.btn-primary.btn-block(href='#modal-container-95318', role='button', data-toggle='modal') Add a movie
+      #modal-container-95318.modal.fade(role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-hidden='true')
+                | ×
+              h4#myModalLabel.modal-title
+                | Search and add a movie
+            .modal-body
+              form(action='/add', method='POST')
+                table
+                  tr
+                    td Enter Movie Name
+                    td
+                      input#movieNameToAdd(name='movieNameToAdd', value='', placeholder='Enter the movie...', required='required')
+                br
+                br
+            .modal-footer
+              button.btn.btn-default(type='button', data-dismiss='modal')
+                | Close
+              button.btn.btn-primary(type='submit', onclick='addMovie();')
+                | Save changes
+    script(src='js/bootstrap.min.js')
+    script(src='js/scripts.js')
+    script(type='text/javascript').
+      function deleteMovie(title){
+      var userRes = confirm("Do you want to delete this movie? \\n");
+      if(!userRes){
+      return false;
+      }else{
+      jQuery.ajax({
+      url:"delete?title="+title,
+      type:"DELETE",
+      success:function (data, textStatus, jqXHR) {
+      console.log("Post resposne:");
+      console.dir(title);
+      console.log(textStatus);
+      console.dir(jqXHR);
+      }
+      });
+      }
+      }
+      function addMovie(){
+      var movieName = $("#movieNameToAdd").val();
+      jQuery.ajax({
+      url:"/add?movieName="+movieName,
+      type:"POST",
+      success:function (data, textStatus, jqXHR) {
+      console.log("Post resposne:");
+      console.dir(title);
+      console.log(textStatus);
+      console.dir(jqXHR);
+      }
+      });
+      }
+      function updateMovie(){
+      var title = $("#updtMovieName").val();
+      var year = $("#updtYear").val();
+      var writers = $("#updtWriters").val();
+      var actors = $("#updtActors").val();
+      var plot = $("#updtPlot").val();
+      jQuery.ajax({
+      url:"/Update?title="+title+"&year="+year+"&writers="+writers+"&actors="+actors+"&plot="+plot,
+      type:"POST",
+      success:function (data, textStatus, jqXHR) {
+      console.log("Post resposne:");
+      console.dir(title);
+      console.log(textStatus);
+      console.dir(jqXHR);
+      }
+      });
+      }
